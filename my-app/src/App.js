@@ -7,23 +7,32 @@ import { StateReducer } from './reducers/StateReducer';
 import { TaskReducer } from './reducers/TaskReducer';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import AdListStoreConsumer from './consumers/AdListStoreConsumer';
+import CurrencyListStoreConsumer from './consumers/CurrencyListStoreConsumer';
+import { GraphQLReducer } from './reducers/GraphQLReducer';
 
-const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer);
 
-console.log(combinedReducer);
+const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, GraphQLReducer);
+
+//console.log(combinedReducer);
 
 function App() {
   return (
     <div>
-      <Router>
+      <Store reducer={combinedReducer}>
+        <Router>
 
-        <Store reducer={combinedReducer}>
+
           <Route exact
-            path="/">
+            path="/ads">
             <AdListStoreConsumer />
           </Route>
-        </Store>
-      </Router>
+          <Route exact
+            path="/currency">
+            <CurrencyListStoreConsumer />
+          </Route>
+
+        </Router>
+      </Store>
     </div>
   )
 }

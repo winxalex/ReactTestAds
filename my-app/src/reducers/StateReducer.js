@@ -6,12 +6,11 @@ export const StateReducer = {
 
     initialState: allBooks,
 
-    // setSession() {
-    //     console.log("startSession");
-    //     return this;
-    // }
 
 
+
+    /// !DON"T USE ARROW FUNCTIONS
+    //Functions are called with "prevState" as "this"
     //v1 asyc/await return Promise
     // setSession: async function () {
     //     console.log("startSession");
@@ -54,7 +53,7 @@ export const StateReducer = {
 
             ),
             catchError(error => {
-                console.log('error: ', error);
+                console.log('StateReducer>setSession: ', error);
                 return of(error);
             })
         );
@@ -87,7 +86,7 @@ export const StateReducer = {
                 }
             }
 
-            ).catch(error => console.log(error));
+            ).catch(error => console.error(error));
 
 
     }

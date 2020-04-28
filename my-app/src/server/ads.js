@@ -1,5 +1,5 @@
 export const ads = {
-    "results": [
+    "ads": [
         {
             "_id": "5c88c455c6d481ecb172208f",
             "created_at": "2018-08-31T11:24:36.000+0000",

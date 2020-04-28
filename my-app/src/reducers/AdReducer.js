@@ -4,7 +4,11 @@ export const AdReducer = {
 
     initialState: ads,
 
-    getAds: () => {
+
+    /// !DON"T USE ARROW FUNCTIONS
+    //Functions are called with "prevState" as "this"
+    getAds() {
+
         return this;
     }
 

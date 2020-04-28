@@ -7,6 +7,8 @@ export const TaskReducer = {
     initialState: defaultState,
 
 
+    /// !DON"T USE ARROW FUNCTIONS
+    //Functions are called with "prevState" as "this"
     createTask(toGroup) {
 
 
