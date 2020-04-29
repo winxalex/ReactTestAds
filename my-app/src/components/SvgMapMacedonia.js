@@ -6,31 +6,46 @@ const myRefs = [];
 
 const setRef = (el) => {
 
-    console.log("setRef");
+    //console.log("setRef");
     myRefs.push(el);
 
 }
 
-const drawText = (el, style, inx) => {
-    const rect = el.getBBox();
-    const name = el.getAttribute("name");
-    const fontW = 6;
-
-    return <SvgText key={inx} x={rect.x + rect.width / 2 - name.length * fontW} y={rect.y + rect.height * 0.5} style={style}>{name}</SvgText>
-
-}
 
 
 
-export default function SvgMapMacedonia({ width, height, style, onClick, textStyle }) {
 
-    const [state, setState] = useState({ paths: [] })
+export default function SvgMapMacedonia({ width, height, style, onClick, textStyle, titles }) {
+
+    const [state, setState] = useState({})
+
+    const drawText = (el, style, inx) => {
+
+        const rect = el.getBBox();
+
+        const fontW = 6;
+
+        const name = titles ? titles[inx] : el.getAttribute("name");
+
+        if (titles) {
+
+            return <SvgText key={inx} x={rect.x + rect.width / 2 - name.length * fontW} y={rect.y + rect.height * 0.5} style={style}>{titles[inx]}</SvgText>
+        } else {
+            return <SvgText key={inx} x={rect.x + rect.width / 2 - name.length * fontW} y={rect.y + rect.height * 0.5} style={style}>{name}</SvgText>
+        }
+    }
 
     useEffect(() => {
 
+        //force update
         setState((s) => {
-            return { ...s, paths: myRefs }
-        })
+
+            return { ...s }
+        }
+
+
+        );
+
     }, [])
 
     return (
@@ -214,7 +229,7 @@ export default function SvgMapMacedonia({ width, height, style, onClick, textSty
                 </circle>
 
                 {
-                    state.paths.map((el, inx) =>
+                    myRefs.map((el, inx) =>
                         drawText(el, textStyle, inx)
 
                     )
