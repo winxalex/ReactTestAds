@@ -10,6 +10,7 @@ import AdListStoreConsumer from './consumers/AdListStoreConsumer';
 import CurrencyListStoreConsumer from './consumers/CurrencyListStoreConsumer';
 import { GraphQLReducer } from './reducers/GraphQLReducer';
 
+import SvgMapMacedonia from './components/SvgMapMacedonia';
 
 const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, GraphQLReducer);
 
@@ -18,6 +19,12 @@ const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, Gr
 function App() {
   return (
     <div>
+
+      <SvgMapMacedonia width={1000} height={791}
+        style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
+        onClick={(e) => console.log(e.target.getAttribute("name"))}
+        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }} />
+
       <Store reducer={combinedReducer}>
         <Router>
 
