@@ -8,7 +8,12 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.7",
+    "apollo-server-express": "^2.12.0",
+    "esm": "^3.2.25",
     "graphql": "^15.0.0",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.11",
+    "nodemon": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router": "^5.1.2",
@@ -20,7 +25,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon --exec node -r esm src/server/server.js",
+    "mongodb": "md mongo-db & \"E:/Program Files/MongoDB/Server/4.2/bin/mongod.exe\" --port 27017 --dbpath mongo-db",
+    "mongodb-backup": "md mongo-db-backup & \"E:/Program Files/MongoDB/Server/4.2/bin/mongodump.exe\" --db test-db --out mongo-db-backup"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +44,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

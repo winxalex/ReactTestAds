@@ -19,6 +19,8 @@ export default function SvgMapMacedonia({ width, height, style, onClick, textSty
 
     const [state, setState] = useState({})
 
+
+
     const drawText = (el, style, inx) => {
 
         const rect = el.getBBox();
