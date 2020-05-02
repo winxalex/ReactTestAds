@@ -14,15 +14,11 @@ const url = process.env.MONGODB_URI || `mongodb://localhost:27017/test-db`;
 
 
 
-let odm = null;
 
-export async function getODM() {
-    if (odm) return odm;
+export async function connectODM() {
 
-    odm = await mongoose.connect(url, { useNewUrlParser: true })
+    await mongoose.connect(url, { useNewUrlParser: true })
+        .then(() => console.log(`Mongoose ODM connect to MongoDB ${url}`))
         .catch(err => console.error(err));
 
-
-
-    return odm;
 }
