@@ -1,4 +1,4 @@
-//import React, { useState } from 'react'
+import React from 'react'
 import Store from './store/Store'
 import './App.css';
 import { combineReducers } from './reducers/utility'
@@ -18,7 +18,7 @@ const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, Gr
 
 function App() {
 
-  //const [state, setstate] = useState({ selected: "", hovered: "" })
+
 
   return (
     <div>
