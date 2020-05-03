@@ -1,4 +1,4 @@
-import React from 'react'
+//import React, { useState } from 'react'
 import Store from './store/Store'
 import './App.css';
 import { combineReducers } from './reducers/utility'
@@ -17,13 +17,30 @@ const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, Gr
 //console.log(combinedReducer);
 
 function App() {
+
+  //const [state, setstate] = useState({ selected: "", hovered: "" })
+
   return (
     <div>
 
+      {/* <SvgMapMacedonia width={1000} height={791}
+        style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
+        selectedStyle={{ fill: "red" }}
+        hoverStyle={{ fill: "blue" }}
+        onSelect={(e) => console.log(e.target.getAttribute("name"))}
+        onHover={(e) => console.log(e.target.getAttribute("name"))}
+        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
+        titles={["Smile", "react", "tutorials", "македонски"]}
+      /> */}
+
       <SvgMapMacedonia width={1000} height={791}
         style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
-        onClick={(e) => console.log(e.target.getAttribute("name"))}
-        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }} />
+        selectedStyle={{ fill: "red" }}
+        hoverStyle={{ fill: "blue" }}
+        onSelect={(e) => console.log(e.target.getAttribute("name"))}
+        onHover={(e) => console.log(e.target.getAttribute("name"))}
+        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
+      />
 
       <Store reducer={combinedReducer}>
         <Router>
