@@ -1,17 +1,13 @@
-import User from "../../db/shemas/User";
 
-import UserMutation from "../../mutation/UserMutation";
 import TaskMutation from "../../mutation/TaskMutation";
+import Task from "../../db/shemas/Task";
 
 const taskResolver = {
     Query: {
-        hello: () => {
 
-            return "mile kitic";
-        },
-        users: () => User.find()
+        tasks: () => Task.find()
     },
-    Mutation: { ...UserMutation, ...TaskMutation }
+    Mutation: TaskMutation
 
 }
 
