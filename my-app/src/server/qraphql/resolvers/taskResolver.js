@@ -1,5 +1,7 @@
 import User from "../../db/shemas/User";
-import mongoose from 'mongoose'
+
+import UserMutation from "../../mutation/UserMutation";
+import TaskMutation from "../../mutation/TaskMutation";
 
 const taskResolver = {
     Query: {
@@ -9,19 +11,7 @@ const taskResolver = {
         },
         users: () => User.find()
     },
-    Mutation: {
-        createUser: async (_, { name }) => {
-            const user = await User.create({ id: new mongoose.Types.ObjectId(), name });
-            console.log(user._id);
-            return user;
-        },
-        createUserNoReturn: async (_, { name }) => {
-            const user = await User.create({ id: new mongoose.Types.ObjectId(), name });
-            if (user)
-                return true;
-            else return false;
-        }
-    }
+    Mutation: { ...UserMutation, ...TaskMutation }
 
 }
 

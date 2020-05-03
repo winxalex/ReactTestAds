@@ -1,4 +1,4 @@
-import mongoose, { Schema, ObjectId } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 
 
@@ -9,7 +9,7 @@ const TaskShema = new Schema({
     group: Schema.Types.ObjectId,
     owner: Schema.Types.ObjectId,
     isComplete: Boolean
-});
+}, { autoCreate: true });//this option will create "tasks" collection
 
 
 const Task = mongoose.model('Task', TaskShema);

@@ -6,14 +6,24 @@ const typeDefs = gql`
     }
 
     type User{
-        id:ID!,
+       
         name:String,
+
+    }
+   
+    type Task{
+       
+        name:String!,
+        group:ID!,
+        owner:ID!,
+        isComplete:Boolean
 
     }
 
     type Mutation{
         createUser(name:String):User,
-        createUserNoReturn(name:String):Boolean
+        createUserNoReturn(name:String):Boolean,
+        createTask(name:String,group:ID!,owner:ID!):Boolean
     }
 
    

@@ -7,7 +7,7 @@ const UserShema = new Schema({
     name: String,
     // passwordHash: md5("TUPLES"),
     friends: [Schema.Types.ObjectId]
-});
+}, { autoCreate: true });//this option will create "tasks" collection
 
 
 const User = mongoose.model('User', UserShema);
