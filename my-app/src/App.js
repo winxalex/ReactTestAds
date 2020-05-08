@@ -11,6 +11,7 @@ import CurrencyListStoreConsumer from './consumers/CurrencyListStoreConsumer';
 import { GraphQLReducer } from './reducers/GraphQLReducer';
 
 import SvgMapMacedonia from './components/SvgMapMacedonia';
+import TaskListStoreConsumer from './consumers/TaskListStoreConsumer';
 
 const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, GraphQLReducer);
 
@@ -23,29 +24,15 @@ function App() {
   return (
     <div>
 
-      {/* <SvgMapMacedonia width={1000} height={791}
-        style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
-        selectedStyle={{ fill: "red" }}
-        hoverStyle={{ fill: "blue" }}
-        onSelect={(e) => console.log(e.target.getAttribute("name"))}
-        onHover={(e) => console.log(e.target.getAttribute("name"))}
-        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
-        titles={["Smile", "react", "tutorials", "македонски"]}
-      /> */}
 
-      <SvgMapMacedonia width={1000} height={791}
-        style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
-        selectedStyle={{ fill: "red" }}
-        hoverStyle={{ fill: "blue" }}
-        onSelect={(e) => console.log(e.target.getAttribute("name"))}
-        onHover={(e) => console.log(e.target.getAttribute("name"))}
-        textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
-      />
 
       <Store reducer={combinedReducer}>
         <Router>
 
-
+          <Route exact
+            path="/tasks">
+            <TaskListStoreConsumer group="G1" />
+          </Route>
           <Route exact
             path="/ads">
             <AdListStoreConsumer />
@@ -53,6 +40,27 @@ function App() {
           <Route exact
             path="/currency">
             <CurrencyListStoreConsumer />
+          </Route>
+          <Route exact path="/map">
+            {/* <SvgMapMacedonia width={1000} height={791}
+                  style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
+                  selectedStyle={{ fill: "red" }}
+                  hoverStyle={{ fill: "blue" }}
+                  onSelect={(e) => console.log(e.target.getAttribute("name"))}
+                  onHover={(e) => console.log(e.target.getAttribute("name"))}
+                  textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
+                  titles={["Smile", "react", "tutorials", "македонски"]}
+                /> */}
+
+            <SvgMapMacedonia width={1000} height={791}
+              style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
+              selectedStyle={{ fill: "red" }}
+              hoverStyle={{ fill: "blue" }}
+              onSelect={(e) => console.log(e.target.getAttribute("name"))}
+              onHover={(e) => console.log(e.target.getAttribute("name"))}
+              textStyle={{ fontSize: 12, strokeWidth: 1, stroke: "black", fill: "red" }}
+            />
+
           </Route>
 
         </Router>
