@@ -1,5 +1,8 @@
 import { gql } from "apollo-server-express";
 
+//shema for gql queries
+//actual schema in DB is different (see db/shemas)
+
 const UserDefs = gql`
     extend type Query{
         hello:String!,
@@ -9,8 +12,9 @@ const UserDefs = gql`
     type User{
        
         name:String,
-
+        groups:[Group]
     }
+ 
    
    
 

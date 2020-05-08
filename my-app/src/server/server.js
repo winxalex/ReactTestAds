@@ -7,6 +7,8 @@ import TaskDefs from "./qraphql/definition/TaskDefs"
 import UserDefs from "./qraphql/definition/UserDefs"
 import BaseTypeDefs from "./qraphql/definition/BaseTypeDefs"
 import userResolver from "./qraphql/resolvers/userResolver"
+import groupResolver from "./qraphql/resolvers/groupResolver"
+import GroupDefs from "./qraphql/definition/GroupDefs"
 
 //const express = require('express');
 
@@ -18,7 +20,7 @@ const start = async () => {
 
     //mergeTypeDefs(types, { all: true });
 
-    const graphqlServer = new ApolloServer({ typeDefs: [BaseTypeDefs, TaskDefs, UserDefs], resolvers: [userResolver, taskResolver] });
+    const graphqlServer = new ApolloServer({ typeDefs: [BaseTypeDefs, GroupDefs, TaskDefs, UserDefs], resolvers: [userResolver, taskResolver, groupResolver] });
 
     let port = process.env.PORT || 7777;
     let app = express();
