@@ -14,10 +14,15 @@ import Group from "../../db/shemas/Group";
 const userResolver = {
     Query: {
 
-        users: () => User.find()
+        users: () => User.find(),
+        user: async (_, { _id }, context, info) => {
+            console.log(_id);
+            return await User.findById(_id);
+        }
 
     },
     User: {
+        //user comes from parent in resolver chain a.ka. from Query.users/user
         groups: (user) => {
             return Group.find({ "owner": user._id });
         }

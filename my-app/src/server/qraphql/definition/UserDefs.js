@@ -6,7 +6,8 @@ import { gql } from "apollo-server-express";
 const UserDefs = gql`
     extend type Query{
         hello:String!,
-        users:[User!]!
+        users:[User!]!,
+        user(_id:ID!):User
     }
 
     type User{

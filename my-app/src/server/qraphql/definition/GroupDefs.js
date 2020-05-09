@@ -16,10 +16,11 @@ const GroupDefs = gql`
 
     extend type Mutation{
        
-        createGroup(name:String,owner:ID!):Boolean
+        createGroup(name:String,owner:ID!):Boolean,
+       
     }
 
    
 `
-//groups: (parent) => Group.find({ "_id": parent._id }),
+
 export default GroupDefs;

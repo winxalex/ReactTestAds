@@ -7,11 +7,15 @@ const TaskMutation =
     createTask: async (_, { name, group, owner }) => {
 
 
-        const taks = await Task.create({ name, group: new mongoose.Types.ObjectId(), owner: new mongoose.Types.ObjectId(), isComplited: false });
-        // const taks = await Task.create({ name, group, owner, isComplited: false });
+        const taks = await Task.create({ name, group, owner, isComplited: false });
+
         if (taks)
             return true;
         else return false;
+    },
+    updateTask: async (_, { id, group, isComplite }) => {
+        const res = await Task.updateOne({ id, group, isComplite });
+        return res.nModified;
     }
 }
 

@@ -18,7 +18,8 @@ const TaskDefs = gql`
 
     extend type Mutation{
        
-        createTask(name:String,group:ID!,owner:ID!):Boolean
+        createTask(name:String,group:ID!,owner:ID!):Boolean,
+        updateTask(id:ID!, group:ID, isComplite:Boolean):Int
     }
 
    
