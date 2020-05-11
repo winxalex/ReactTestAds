@@ -107,7 +107,12 @@ export default function Store({ reducer, children }) {
                             } else
 
                                 subject.next(result);
+
+                            //should I return something?
+                            //return result;
                         }
+
+
                     }
 
 
