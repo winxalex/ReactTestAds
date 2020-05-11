@@ -8,6 +8,7 @@ const groupResolver = {
 
         groups: () => Group.find()
     },
+
     Mutation: GroupMutation
 
 }

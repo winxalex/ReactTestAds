@@ -12,6 +12,7 @@ import { GraphQLReducer } from './reducers/GraphQLReducer';
 
 import SvgMapMacedonia from './components/SvgMapMacedonia';
 import TaskListStoreConsumer from './consumers/TaskListStoreConsumer';
+import TaskDashboard from './components/TaskDashboard';
 
 const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, GraphQLReducer);
 
@@ -31,7 +32,7 @@ function App() {
 
           <Route exact
             path="/tasks">
-            <TaskListStoreConsumer group="G1" />
+            <TaskDashboard />
           </Route>
           <Route exact
             path="/ads">

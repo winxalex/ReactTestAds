@@ -1,108 +1,74 @@
 import { StoreContext } from '../store/Store';
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { ReactSortable } from "react-sortablejs";
 import arrayMove from 'array-move';
 import { TaskLayout } from '../components/task/TaskLayout';
+import { TaskList } from '../components/task/TaskList';
+import TaskItem from '../components/task/TaskItem';
 //import TaskList from './components/task/TaskList'
+import styled from 'styled-components';
 
-
-
-
-
-const initialState = {
-    groups: [{
-        name: "To Do",
-        id: "G1",
-        owner: "U1"
-    }, {
-        name: "Doing",
-        id: "G2",
-        owner: "U1"
-    }, {
-        name: "Done",
-        id: "G3",
-        owner: "U1"
+const Container = styled.div`
+  display: flex;
+  width: inherit;
+  & > * {
+    width: 100%;
+    margin-left: 0.3rem;
+    :first-child() {
+      margin-left: 0rem;
     }
-    ]
-};
+  }
+`;
+
+
+
 
 export default function TaskListStoreConsumer({ group, ...rest }) {
 
-    // const [state, setState] = useState({
-    //     list1: [
-    //         { id: 1, name: "shrek1" },
-    //         { id: 2, name: "shrek2" },
-    //         { id: 3, name: "shrek3" },
-    //         { id: 4, name: "shrek4" }
-    //     ]
-    //     ,
-    //     list2: [
-    //         { id: 2, name: "fiona1" },
-    //         { id: 3, name: "fiona2" },
-    //         { id: 4, name: "fiona3" }
-    //     ]
-    // });
 
 
-    const [state, setState] = useState({
-        list:
-            [
-                { id: 1, name: "shrek1" },
-                { id: 2, name: "shrek2" },
-                { id: 3, name: "shrek3" },
-                { id: 4, name: "shrek4" }
-            ],
-        list1:
-            [
-                { id: 5, name: "fiona1" },
-                { id: 6, name: "fiona2" },
-                { id: 7, name: "fiona3" },
-                { id: 8, name: "fiona4" }
-            ]
-    });
+    const { apply, reducer: { getTasks, updateGroup }, getState } = useContext(StoreContext);
+
+    useEffect(() => {
+
+        //only for test will be given my authorization logic JWT
+        apply(getTasks, "5eaebcb68c361120300dad69");
+
+        return () => {
+            // cleanup
+        }
+    }, [])
 
 
 
-    const { list, list1 } = state;
+    console.log(getState());
+
+    const { groups } = getState().user;
+
     return (
 
 
 
-        <div>
+        <Container>
 
-            <ReactSortable group="my" list={state.list} setList={
-                (l) => setState({
-                    ...state, list: l
-                })
-            }>
-                {list.map(item => (
-                    <div key={item.id}>{item.name}</div>
-                ))}
-            </ReactSortable>
-
-            <hr></hr>
-            <ReactSortable group="my" list={state.list1} setList={
-                (l) => setState({
-                    ...state, list1: l
-                })
-            }>
-                {list1.map(item => (
-                    <div key={item.id}>{item.name}</div>
-                ))}
-            </ReactSortable>
-            {/* <ReactSortable group="my" list={state.list1} setList={setState}>
-                {state.list1.map(item => (
-                    <div key={item.id}>{item.name}</div>
-                ))}
-            </ReactSortable>
-            <ReactSortable group="my" list={state.list2} setList={setState}>
-                {state.list2.map(item => (
-                    <div key={item.id}>{item.name}</div>
-                ))}
-            </ReactSortable> */}
+            {
+                groups.map((group, index) =>
+                    <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
+                        <h3>{group.name}</h3>
+                        <ReactSortable group="my" list={group.tasks} setList={
+                            (l) => apply(updateGroup, l, index)
+                        }>
+                            {group.tasks.map(item => (
+                                <TaskItem key={item._id} name={item.name}></TaskItem>
+                            ))}
+                        </ReactSortable>
+                    </div>
+                )
+            }
 
 
-        </div >
+
+        </Container>
 
     )
 }

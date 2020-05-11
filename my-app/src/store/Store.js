@@ -19,17 +19,38 @@ export default function Store({ reducer, children }) {
     console.log(state);
 
     useEffect(() => {
-        console.log("useEffect");
+
         const sub = subject.pipe(skip(1)).subscribe(s => setState(s));
         return () => sub.unsubscribe();
     }, [])
+
+
+    // someFunction = function() {
+    //     alert("done");
+    // }
+
+    // You'd do this...
+
+    // someFunction = (function() {
+    //     var cached_function = someFunction;
+
+    //     return function() {
+    //         // your code
+
+    //         var result = cached_function.apply(this, arguments); // use .apply() to call it
+
+    //         // more of your code
+
+    //         return result;
+    //     };
+    // })();
 
 
     const apply = (f, ...args) => {
 
         // console.log("apply");
 
-        const o = f.apply(reducer, args);
+        const o = f.apply(state, args);
 
         const p = Promise.resolve(o);
 
@@ -49,7 +70,7 @@ export default function Store({ reducer, children }) {
     return (
 
 
-        <StoreContext.Provider value={{ apply: apply, reducer, getState: () => state, getSubject: () => subject }}>
+        <StoreContext.Provider value={{ apply, reducer, getState: () => state, getSubject: () => subject }}>
             {
                 children
             }

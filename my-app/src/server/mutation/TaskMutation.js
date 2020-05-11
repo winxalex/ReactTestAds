@@ -7,9 +7,9 @@ const TaskMutation =
     createTask: async (_, { name, group, owner }) => {
 
 
-        const taks = await Task.create({ name, group, owner, isComplited: false });
+        const task = await Task.create({ name, group, owner, isComplited: false });
 
-        if (taks)
+        if (task)
             return true;
         else return false;
     },

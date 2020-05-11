@@ -7,10 +7,10 @@ const GroupDefs = gql`
     }
 
     type Group{
-       
+        _id:ID,
         name:String!,
         owner:ID!,
-        groups: Group
+        tasks:[Task]
     }
    
 

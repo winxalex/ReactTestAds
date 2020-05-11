@@ -7,7 +7,7 @@ const TaskDefs = gql`
     }
 
     type Task{
-       
+        _id:ID,
         name:String!,
         group:ID!,
         owner:ID!,

@@ -9,20 +9,21 @@ import BaseTypeDefs from "./qraphql/definition/BaseTypeDefs"
 import userResolver from "./qraphql/resolvers/userResolver"
 import groupResolver from "./qraphql/resolvers/groupResolver"
 import GroupDefs from "./qraphql/definition/GroupDefs"
-
-//const express = require('express');
-
+import dotenv from "dotenv";
 
 
+dotenv.config();
+
+console.log(process.env.REACT_APP_GRAPHQL_PORT);
+console.log(process.env.REACT_APP_GRAPHQL_URL);
 
 
 const start = async () => {
 
-    //mergeTypeDefs(types, { all: true });
 
     const graphqlServer = new ApolloServer({ typeDefs: [BaseTypeDefs, GroupDefs, TaskDefs, UserDefs], resolvers: [userResolver, taskResolver, groupResolver] });
 
-    let port = process.env.PORT || 7777;
+    let port = process.env.REACT_APP_GRAPHQL_PORT || 7777;
     let app = express();
 
 

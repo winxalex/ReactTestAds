@@ -7,9 +7,9 @@ export const TaskList = ({ tasks, name, id, createTaskItem, test }) => (
         <h3>{name}</h3>
         {
             tasks.map((task) => (
-                <Link key={task.id} to={`/task/${task.id}`} >
-                    <div>{task.name}</div>
-                </Link>
+
+                <div>{task.name}</div>
+
 
             ))
         }
@@ -17,9 +17,6 @@ export const TaskList = ({ tasks, name, id, createTaskItem, test }) => (
         <button onClick={() => test()} > Test</button>
     </div>
 );
-
-
-
 
 
 

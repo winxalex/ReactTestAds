@@ -14,6 +14,7 @@ const UserDefs = gql`
        
         name:String,
         groups:[Group]
+       
     }
  
    
