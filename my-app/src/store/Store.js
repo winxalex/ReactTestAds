@@ -7,8 +7,56 @@ import { skip } from 'rxjs/operators'
 // https://github.com/leandrohsilveira/reactjs-hooks-rxjs
 
 export const StoreContext = React.createContext();
-
 const subject = new BehaviorSubject(null);
+
+
+const redispatchMethods = (obj, state) => {
+
+    const functionString = 'function';
+
+    Object.getOwnPropertyNames(obj).map(item => {
+
+        var origProp = obj[item];
+
+        //if prop is function
+        if (typeof origProp === functionString) {
+
+            // obj[item] = function (...args) {
+            //     console.log("mile");
+            //     return origProp.apply(state, args);
+            // }
+
+            // console.log(item);
+
+
+            obj[item] = function (...args) {
+
+                console.log("calll");
+
+                const result = origProp.apply(state, args)
+
+                const p = Promise.resolve(result);
+
+                if (p === result) {
+                    //console.log("promise");
+                    p.then(v => subject.next(v));
+                } else if (isObservable(result)) {
+                    //console.log("isObservable");
+                    result.subscribe(v => subject.next(v));
+                } else
+
+                    subject.next(result);
+
+                return result;
+            }
+        }
+    })
+
+
+    return obj;
+}
+
+let _store = null;
 
 export default function Store({ reducer, children }) {
 
@@ -16,61 +64,68 @@ export default function Store({ reducer, children }) {
     //console.log(reducer.initialState);
     const [state, setState] = useState(reducer.initialState);
 
-    console.log(state);
+    // console.log(state);
 
     useEffect(() => {
+
+
+        //store = redispatchMethods(reducer, state);
+
+        //reducer.getTasks("5eaebcb68c361120300dad69");
 
         const sub = subject.pipe(skip(1)).subscribe(s => setState(s));
         return () => sub.unsubscribe();
     }, [])
 
 
-    // someFunction = function() {
-    //     alert("done");
-    // }
+    const getStore = () => {
 
-    // You'd do this...
+        if (_store == null) {
 
-    // someFunction = (function() {
-    //     var cached_function = someFunction;
+            _store = new Proxy({}, {
 
-    //     return function() {
-    //         // your code
+                get: function (target, name) {
 
-    //         var result = cached_function.apply(this, arguments); // use .apply() to call it
+                    const f = reducer[name];
 
-    //         // more of your code
+                    if (f) {
 
-    //         return result;
-    //     };
-    // })();
+                        return function (...args) {
+
+                            console.log("call" + name);
+
+                            const result = f.apply(state, args)
+
+                            const p = Promise.resolve(result);
+
+                            if (p === result) {
+                                //console.log("promise");
+                                p.then(v => subject.next(v));
+                            } else if (isObservable(result)) {
+                                //console.log("isObservable");
+                                result.subscribe(v => subject.next(v));
+                            } else
+
+                                subject.next(result);
+                        }
+                    }
 
 
-    const apply = (f, ...args) => {
+                    return function () {
+                        console.error(name);
+                    };
+                }
+            });
+        }
 
-        // console.log("apply");
+        return _store;
 
-        const o = f.apply(state, args);
-
-        const p = Promise.resolve(o);
-
-        if (p === o) {
-            //console.log("promise");
-            p.then(v => subject.next(v));
-        } else if (isObservable(o)) {
-            //console.log("promise");
-            o.subscribe(v => subject.next(v));
-        } else
-
-            subject.next(o);
     }
-
-
 
     return (
 
 
-        <StoreContext.Provider value={{ apply, reducer, getState: () => state, getSubject: () => subject }}>
+        <StoreContext.Provider value={{ getStore, getState: () => state, getSubject: () => subject }}>
             {
                 children
             }
@@ -79,3 +134,28 @@ export default function Store({ reducer, children }) {
 
     )
 }
+
+
+// const f = reducer[name];
+
+// if (f) {
+
+//     return function (...args) {
+
+//         console.log("calll");
+
+//         const result = f.apply(state, args)
+
+//         const p = Promise.resolve(result);
+
+//         if (p === result) {
+//             //console.log("promise");
+//             p.then(v => subject.next(v));
+//         } else if (isObservable(result)) {
+//             //console.log("isObservable");
+//             result.subscribe(v => subject.next(v));
+//         } else
+
+//             subject.next(result);
+//     }
+// }

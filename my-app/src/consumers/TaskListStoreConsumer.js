@@ -27,12 +27,13 @@ export default function TaskListStoreConsumer({ group, ...rest }) {
 
 
 
-    const { apply, reducer: { getTasks, updateGroup }, getState } = useContext(StoreContext);
+    const { getStore, getState } = useContext(StoreContext);
 
     useEffect(() => {
 
         //only for test will be given my authorization logic JWT
-        apply(getTasks, "5eaebcb68c361120300dad69");
+        //reducer.getTasks("5eaebcb68c361120300dad69");
+        getStore().getTasks("5eaebcb68c361120300dad69");
 
         return () => {
             // cleanup
@@ -40,6 +41,9 @@ export default function TaskListStoreConsumer({ group, ...rest }) {
     }, [])
 
 
+    const setList = (l, index) => {
+        //getStore().updateGroup(l, index);
+    }
 
     console.log(getState());
 
@@ -56,7 +60,7 @@ export default function TaskListStoreConsumer({ group, ...rest }) {
                     <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
                         <h3>{group.name}</h3>
                         <ReactSortable group="my" list={group.tasks} setList={
-                            (l) => apply(updateGroup, l, index)
+                            (l) => setList(l, index)
                         }>
                             {group.tasks.map(item => (
                                 <TaskItem key={item._id} name={item.name}></TaskItem>
@@ -75,7 +79,7 @@ export default function TaskListStoreConsumer({ group, ...rest }) {
 
 
 
-
+//(l, index) => setList(l, index)
 
 
 

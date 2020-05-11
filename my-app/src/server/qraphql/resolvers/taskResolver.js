@@ -5,7 +5,7 @@ import Task from "../../db/shemas/Task";
 const taskResolver = {
     Query: {
 
-        tasks: () => Task.find()
+        tasks: async () => await Task.find()
     },
     Mutation: TaskMutation
 

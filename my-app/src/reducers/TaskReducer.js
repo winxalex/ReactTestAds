@@ -38,7 +38,7 @@ export const TaskReducer = {
     },
     getTasks(userId) {
 
-        console.log(userId);
+        //console.log(userId);
 
         return client
             // .query({
@@ -67,13 +67,13 @@ export const TaskReducer = {
             })
             .then(({ data }) => {
 
-                console.log(this);
-                console.log(data.user);
+                // console.log(this);
+                //  console.log(data.user);
 
                 if (data && data.user) {
-                    console.log({
-                        ...this, user: data.user
-                    });
+                    // console.log({
+                    //     ...this, user: data.user
+                    // });
                     return {
                         ...this, user: data.user
                     }
@@ -91,24 +91,15 @@ export const TaskReducer = {
     },
     updateGroup(tasks, groupInx) {
 
-
-
-        console.log("indx:" + groupInx);
-        console.log(tasks);
-        console.log(this.user.groups[groupInx].name);
-        console.log("------------");
-
-
-
-        return {
-            ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
-        }
-
-        // this.setState({
-        //     items: update(this.state.items, {1: {name: {$set: 'updated field name'}}})
-        //   })
+        console.log(this);
 
         return this;
+
+        // return {
+        //     ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
+        // }
+
+
     }
 
 

@@ -15,7 +15,7 @@ import Task from "../../db/shemas/Task";
 const userResolver = {
     Query: {
 
-        users: () => User.find(),
+        users: async () => await User.find(),
         user: async (_, { _id }, context, info) => {
             //console.log(_id);
             return await User.findById(_id);
@@ -24,8 +24,8 @@ const userResolver = {
     },
     User: {
         //user comes from parent in resolver chain a.ka. from Query.users/user
-        groups: (user) => {
-            return Group.find({ "owner": user._id });
+        groups: async (user) => {
+            return await Group.find({ "owner": user._id });
         },
 
 
@@ -34,9 +34,9 @@ const userResolver = {
     },
     Group: {
         //group comes from parent in resolver chain a.ka. from User
-        tasks: (group) => {
+        tasks: async (group) => {
 
-            return Task.find({ "owner": group.owner, "group": group._id });
+            return await Task.find({ "owner": group.owner, "group": group._id });
         }
     },
 
