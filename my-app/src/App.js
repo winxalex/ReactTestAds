@@ -11,10 +11,10 @@ import CurrencyListStoreConsumer from './consumers/CurrencyListStoreConsumer';
 import { GraphQLReducer } from './reducers/GraphQLReducer';
 
 import SvgMapMacedonia from './components/SvgMapMacedonia';
-import TaskListStoreConsumer from './consumers/TaskListStoreConsumer';
 import TaskDashboard from './components/TaskDashboard';
+import { StatusReducer } from './reducers/StatusReducer';
 
-const combinedReducer = combineReducers(StateReducer, TaskReducer, AdReducer, GraphQLReducer);
+const combinedReducer = combineReducers(StatusReducer, StateReducer, TaskReducer, AdReducer, GraphQLReducer);
 
 //console.log(combinedReducer);
 

@@ -1,20 +1,19 @@
 import React from 'react'
+import { ReactSortable } from 'react-sortablejs';
+import TaskItem from './TaskItem';
 
-import { Link } from 'react-router-dom';
 
-export const TaskList = ({ tasks, name, id, createTaskItem, test }) => (
+export const TaskList = ({ tasks, name, onSetList }) => (
     <div>
         <h3>{name}</h3>
-        {
-            tasks.map((task) => (
+        <ReactSortable group="my" list={tasks} setList={
+            onSetList
+        }>
 
-                <div>{task.name}</div>
-
-
-            ))
-        }
-        <button onClick={() => createTaskItem()} > Add Item</button>
-        <button onClick={() => test()} > Test</button>
+            {tasks.map(item => (
+                <TaskItem key={item._id} name={item.name}></TaskItem>
+            ))}
+        </ReactSortable>
     </div>
 );
 

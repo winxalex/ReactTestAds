@@ -1,13 +1,81 @@
-import React, { useState } from 'react'
-import TaskListStoreConsumer from '../consumers/TaskListStoreConsumer'
+import { StoreContext } from '../store/Store';
+import React, { useContext, useEffect } from 'react'
+import { TaskList } from '../components/task/TaskList';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  width: inherit;
+  & > * {
+    width: 100%;
+    margin-left: 0.3rem;
+    :first-child() {
+      margin-left: 0rem;
+    }
+  }
+`;
+
+
+
 
 export default function TaskDashboard() {
 
 
 
+    const { store, getState } = useContext(StoreContext);
+
+    useEffect(() => {
+
+        //only for test will be given my authorization logic JWT
+        //reducer.getTasks("5eaebcb68c361120300dad69");
+        store.getTasks("5eaebcb68c361120300dad69");
+
+        return () => {
+            // cleanup
+        }
+    }, [])
+
+
+    //its called when you start dragging or after dropping item in list
+    const setList = (listOfTasks, index) => {
+
+        const { tasksStatus, user: { groups } } = getState();
+
+        if (tasksStatus == 1 && groups && groups[index].tasks.length !== listOfTasks.length)
+            store.updateGroup(listOfTasks, index);
+
+    }
+
+
+
+    const { groups } = getState().user;
+
     return (
-        <div>
-            <TaskListStoreConsumer />
-        </div>
+
+
+
+        <Container>
+
+            {
+                groups.map((group, index) =>
+                    <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
+
+                        <TaskList tasks={group.tasks} name={group.name} onSetList={(l) => setList(l, index)} />
+                    </div>
+                )
+            }
+
+
+
+        </Container>
+
     )
 }
+
+
+
+
+
+
+
+

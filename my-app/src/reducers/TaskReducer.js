@@ -3,7 +3,6 @@ import uuid from "uuid";
 
 import ApolloClient from 'apollo-boost';
 import { gql } from "apollo-boost";
-import { getTasksGQL } from "./m";
 import update from 'immutability-helper';
 
 
@@ -67,7 +66,8 @@ export const TaskReducer = {
             })
             .then(({ data }) => {
 
-                // console.log(this);
+
+                console.log(this);
                 //  console.log(data.user);
 
                 if (data && data.user) {
@@ -75,7 +75,7 @@ export const TaskReducer = {
                     //     ...this, user: data.user
                     // });
                     return {
-                        ...this, user: data.user
+                        ...this, tasksStatus: 1, user: { groups: data.user.groups }
                     }
                 }
 
@@ -91,13 +91,9 @@ export const TaskReducer = {
     },
     updateGroup(tasks, groupInx) {
 
-        console.log(this);
-
-        return this;
-
-        // return {
-        //     ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
-        // }
+        return {
+            ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
+        }
 
 
     }
