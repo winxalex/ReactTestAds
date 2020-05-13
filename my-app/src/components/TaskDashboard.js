@@ -33,20 +33,39 @@ export default function TaskDashboard() {
         return () => {
             // cleanup
         }
-    }, [store])
+    }, [store]);
 
+
+    const onAdd = (evt, group) => {
+        // var itemEl = evt.item;  // dragged HTMLElement
+        // evt.to;    // target list
+        // evt.from;  // previous list
+        // evt.oldIndex;  // element's old index within old parent
+        // evt.newIndex;  // element's new index within new parent
+        // evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
+        // evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
+        // evt.clone // the clone element
+        // evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
+
+        // if (evt.to == evt.from) {
+        //     if (evt.oldIndex == evt.newIndex) return;
+        // }
+
+        console.log(evt, evt.oldIndex, evt.newIndex, group);
+    };
 
     //its called when you start dragging or after dropping item in list
-    const setList = (listOfTasks, index) => {
+    const setList = (listOfTasks, group) => {
 
         const { tasksStatus } = getState();
 
         //check of lenghts prevent reordering on list => useful when tasks has priority
         // if (tasksStatus == 1 && groups && groups[index].tasks.length !== listOfTasks.length)
-        if (tasksStatus === 1)
-            store.updateGroup(listOfTasks, index);
-
-    }
+        // if (tasksStatus === 1)
+        //store.updateGroup(listOfTasks, index);
+        console.log(listOfTasks, group);
+        return listOfTasks;
+    };
 
 
 
@@ -62,7 +81,7 @@ export default function TaskDashboard() {
                 groups.map((group, index) =>
                     <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
 
-                        <TaskList tasks={group.tasks} name={group.name} onSetList={(l) => setList(l, index)} />
+                        <TaskList tasks={group.tasks} name={group.name} onAdd={(e) => onAdd(e, group)} onSetList={(l) => setList(l, group)} />
                     </div>
                 )
             }

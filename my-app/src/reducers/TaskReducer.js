@@ -83,11 +83,36 @@ export const TaskReducer = {
             }
             );
     },
-    updateGroup(tasks, groupInx) {
+    updateGroup(task, group) {
 
-        return {
-            ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
-        }
+        return client.query({
+
+            mutation: gql`
+                {
+                    updateTask(
+                        _id:${task.id},
+                        group:$${group},
+                        isComplete:${task.isComplete}
+                      )
+                }
+        `
+
+        })
+            .then(({ data }) => {
+
+
+
+
+            })
+            .catch(error => {
+                console.error("TaskReducer>getTasks:" + error);
+                return this;
+            }
+            );
+
+        // return {
+        //     ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
+        // }
 
 
     }

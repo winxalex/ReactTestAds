@@ -13,8 +13,11 @@ const TaskMutation =
             return true;
         else return false;
     },
-    updateTask: async (_, { id, group, isComplite }) => {
-        const res = await Task.updateOne({ id, group, isComplite });
+    updateTask: async (_, { _id, group, isComplete }) => {
+        const upd = { group, isComplete };
+        Object.keys(upd).forEach(key => upd[key] === undefined && delete upd[key]);
+        console.log(upd);
+        const res = await Task.updateOne({ _id }, upd, {});
         return res.nModified;
     }
 }
