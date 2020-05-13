@@ -66,14 +66,8 @@ export const TaskReducer = {
             })
             .then(({ data }) => {
 
-
-                console.log(this);
-                //  console.log(data.user);
-
                 if (data && data.user) {
-                    // console.log({
-                    //     ...this, user: data.user
-                    // });
+
                     return {
                         ...this, tasksStatus: 1, user: { groups: data.user.groups }
                     }

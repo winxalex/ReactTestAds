@@ -3,48 +3,31 @@ import { BehaviorSubject, isObservable } from 'rxjs'
 import { skip } from 'rxjs/operators'
 
 const subject = new BehaviorSubject(null);
+
+const proxyTargetObject = {
+    state: null,
+    reducer: null
+};
+
 let _store = null;
 
-export function useStore(reducer) {
+const getStore = () => {
 
-    //console.log(reducer.initialState);
-    const [state, setState] = useState(reducer.initialState);
-
-    console.log("current State:", state);
-
-    useEffect(() => {
-
-        const sub = subject.pipe(skip(1)).subscribe(s => {
-
-            setState(s);
-        });
-        return () => sub.unsubscribe();
-    }, [])
+    if (_store == null) {
 
 
-    const getStore = (s) => {
+        _store = new Proxy(proxyTargetObject, {
 
-        if (_store == null) {
+            get: function ({ reducer, state }, name) {
 
-            //_store = new Proxy({}, {
-            _store = new Proxy(state, {
-
-                get: function (target, name) {
-
+                if (reducer) {
                     const f = reducer[name];
 
                     if (f) {
 
                         return function (...args) {
 
-                            console.log("call " + name);
-
-                            console.log("will be called on ");
-                            // console.log(s);
-                            console.log(target);
-                            console.log("xxxxxxx ");
-                            //const result = f.apply(s, args)
-                            const result = f.apply(target, args)
+                            const result = f.apply(state, args)
 
 
 
@@ -70,19 +53,47 @@ export function useStore(reducer) {
 
 
                     }
-
-
-                    return function () {
-                        console.error(name);
-                    };
                 }
 
-            });
-        }
 
-        return _store;
+                return function () {
+                    console.error(`No function/property "${name}" found in store reducers`);
+                };
+            }
+
+        });
     }
 
+    return _store;
+}
 
-    return [getStore(state), state, subject];
+export function useStore(reducer) {
+
+    //console.log(reducer.initialState);
+    const [state, setState] = useState(reducer.initialState);
+
+    //console.log("current State:", state);
+
+    useEffect(() => {
+
+
+
+        const sub = subject.pipe(skip(1)).subscribe(s => {
+
+            //console.log("set s to:", s);
+
+            setState(s);
+        });
+        return () => sub.unsubscribe();
+    }, [])
+
+    proxyTargetObject.reducer = reducer;
+    proxyTargetObject.state = state;
+
+
+
+
+
+
+    return [getStore(), state, subject];
 }

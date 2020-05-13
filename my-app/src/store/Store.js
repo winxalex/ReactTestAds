@@ -2,9 +2,6 @@ import React from 'react'
 import { useStore } from './useStore';
 
 
-//https://codesandbox.io/s/how-react-should-be-50wp0
-// https://github.com/leandrohsilveira/reactjs-hooks-rxjs
-
 export const StoreContext = React.createContext();
 
 

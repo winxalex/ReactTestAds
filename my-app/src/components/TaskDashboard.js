@@ -33,15 +33,17 @@ export default function TaskDashboard() {
         return () => {
             // cleanup
         }
-    }, [])
+    }, [store])
 
 
     //its called when you start dragging or after dropping item in list
     const setList = (listOfTasks, index) => {
 
-        const { tasksStatus, user: { groups } } = getState();
+        const { tasksStatus } = getState();
 
-        if (tasksStatus == 1 && groups && groups[index].tasks.length !== listOfTasks.length)
+        //check of lenghts prevent reordering on list => useful when tasks has priority
+        // if (tasksStatus == 1 && groups && groups[index].tasks.length !== listOfTasks.length)
+        if (tasksStatus === 1)
             store.updateGroup(listOfTasks, index);
 
     }
