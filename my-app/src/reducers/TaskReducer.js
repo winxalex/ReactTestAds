@@ -6,6 +6,17 @@ import { gql } from "apollo-boost";
 import update from 'immutability-helper';
 
 
+// import { InMemoryCache } from 'apollo-cache-inmemory';
+// import { HttpLink } from 'apollo-link-http';
+// import ApolloClient from 'apollo-client';
+
+// const cache = new InMemoryCache();
+
+// const client = new ApolloClient({
+//     link: new HttpLink(),
+//     cache
+// });
+
 const client = new ApolloClient({
     uri: `http://localhost:${process.env.REACT_APP_GRAPHQL_PORT}/graphql`,
 });
@@ -83,24 +94,37 @@ export const TaskReducer = {
             }
             );
     },
-    updateGroup(task, group) {
+    setTaskList(tasks, groupIndex) {
 
-        return client.query({
+        return {
+            ...this, user: { groups: update(this.user.groups, { [groupIndex]: { tasks: { $set: tasks } } }) }
+        }
 
-            mutation: gql`
-                {
-                    updateTask(
-                        _id:${task.id},
-                        group:$${group},
-                        isComplete:${task.isComplete}
-                      )
-                }
-        `
+
+    },
+    updateTask(task, group, isComplete) {
+
+        const MY_MUTATE = gql`
+        mutation {
+            updateTask(
+                _id: "${task._id}",
+                group:"${group._id}"
+                isComplete: ${isComplete}
+            )
+          }`
+
+
+
+
+
+        client.mutate({
+
+            mutation: MY_MUTATE
 
         })
             .then(({ data }) => {
 
-
+                console.log(data);
 
 
             })
@@ -110,12 +134,18 @@ export const TaskReducer = {
             }
             );
 
-        // return {
-        //     ...this, user: { groups: update(this.user.groups, { [groupInx]: { tasks: { $set: tasks } } }) }
-        // }
-
+        return this;
 
     }
 
 
 }
+
+
+// mutation mile{
+//     updateTask(
+//     _id:"${task._id}",
+//     group:"${group._id}",
+//     isComplete:false
+//   )
+//     }

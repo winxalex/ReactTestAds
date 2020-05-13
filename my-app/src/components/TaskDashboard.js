@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 
-
+let _destinationGroup = null;
 
 export default function TaskDashboard() {
 
@@ -35,7 +35,7 @@ export default function TaskDashboard() {
         }
     }, [store]);
 
-
+    //!!Called on new owner list
     const onAdd = (evt, group) => {
         // var itemEl = evt.item;  // dragged HTMLElement
         // evt.to;    // target list
@@ -47,24 +47,49 @@ export default function TaskDashboard() {
         // evt.clone // the clone element
         // evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
 
-        // if (evt.to == evt.from) {
-        //     if (evt.oldIndex == evt.newIndex) return;
-        // }
+        console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, group);
 
-        console.log(evt, evt.oldIndex, evt.newIndex, group);
+        _destinationGroup = group;
+
     };
 
+
     //its called when you start dragging or after dropping item in list
-    const setList = (listOfTasks, group) => {
+    // also is called in this order onAdd in new owner list, setList with
+    // tasks of new owner list, then onRemove in previous owner, then setList in
+    // previous owner
+    const setList = (listOfTasks, groupIndex) => {
 
         const { tasksStatus } = getState();
 
         //check of lenghts prevent reordering on list => useful when tasks has priority
         // if (tasksStatus == 1 && groups && groups[index].tasks.length !== listOfTasks.length)
-        // if (tasksStatus === 1)
-        //store.updateGroup(listOfTasks, index);
-        console.log(listOfTasks, group);
-        return listOfTasks;
+        if (tasksStatus === 1) {
+            console.log(listOfTasks, groupIndex);
+            store.setTaskList(listOfTasks, groupIndex);
+        }
+
+
+    };
+
+
+    // Element is removed from the list into another list
+    //!!Called on previous owner list
+    const onRemove = (/**Event*/evt, group) => {
+        // same properties as onEnd
+
+        if (_destinationGroup) {
+
+            const task = group.tasks[evt.oldIndex];
+            console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, _destinationGroup, task);
+            group = _destinationGroup;
+            _destinationGroup = null;
+            store.updateTask(task, group, group.name === "Done" ? true : false);
+        }
+
+        //console.log(evt, evt.oldIndex, evt.newIndex, group, _currentTask);
+        //console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, group);
+
     };
 
 
@@ -81,7 +106,11 @@ export default function TaskDashboard() {
                 groups.map((group, index) =>
                     <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
 
-                        <TaskList tasks={group.tasks} name={group.name} onAdd={(e) => onAdd(e, group)} onSetList={(l) => setList(l, group)} />
+                        <TaskList tasks={group.tasks} name={group.name}
+                            groupIdName="my"
+                            onRemove={(e) => onRemove(e, group)}
+                            onAdd={(e) => onAdd(e, group)}
+                            onSetList={(l) => setList(l, index)} />
                     </div>
                 )
             }
