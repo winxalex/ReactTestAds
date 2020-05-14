@@ -1,5 +1,5 @@
 import React from 'react'
-import AdList from '../components/AdList'
+import AdList from '../components/ads/AdList'
 import { StoreContext } from '../store/Store'
 
 export default function CurrencyListStoreConsumer({ ...rest }) {
@@ -7,7 +7,7 @@ export default function CurrencyListStoreConsumer({ ...rest }) {
         <div>
             <StoreContext.Consumer>
                 {
-                    ({ getState, reducer: { getAds }, apply }) =>
+                    ({ getState, store: { getAds }, apply }) =>
                         <AdList ads={getState().ads}
                             {...rest} />
                 }

@@ -36,7 +36,7 @@ const userResolver = {
         //group comes from parent in resolver chain a.ka. from User
         tasks: async (group) => {
 
-            return await Task.find({ "owner": group.owner, "group": group._id });
+            return await Task.find({ "owner": group.owner, "group": group._id }).sort({ "priority": 1 });
         }
     },
 

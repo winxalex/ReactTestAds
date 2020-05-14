@@ -67,7 +67,8 @@ export const TaskReducer = {
                             name,
                             tasks{
                                 _id,
-                                name
+                                name,
+                                priority
                             }
                         }
                         }
@@ -102,15 +103,17 @@ export const TaskReducer = {
 
 
     },
-    updateTask(task, group, isComplete) {
+    updateTask(task, group, priority, isComplete) {
 
-        const MY_MUTATE = gql`
-        mutation {
-            updateTask(
-                _id: "${task._id}",
-                group:"${group._id}"
-                isComplete: ${isComplete}
-            )
+
+        const UPDATE_MUTATION = gql`
+            mutation {
+                updateTask(
+                    _id: "${task._id}",
+                    group:"${group._id}"
+                    priority:${priority}
+                    isComplete: ${isComplete}
+                )
           }`
 
 
@@ -119,7 +122,7 @@ export const TaskReducer = {
 
         client.mutate({
 
-            mutation: MY_MUTATE
+            mutation: UPDATE_MUTATION
 
         })
             .then(({ data }) => {

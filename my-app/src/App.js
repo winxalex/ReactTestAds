@@ -10,13 +10,14 @@ import AdListStoreConsumer from './consumers/AdListStoreConsumer';
 import CurrencyListStoreConsumer from './consumers/CurrencyListStoreConsumer';
 import { GraphQLReducer } from './reducers/GraphQLReducer';
 
-import SvgMapMacedonia from './components/SvgMapMacedonia';
-import TaskDashboard from './components/TaskDashboard';
+import SvgMapMacedonia from './components/map/SvgMapMacedonia';
+import TaskDashboardStoreConsumer from './consumers/TaskDashboardStoreConsumer';
 import { StatusReducer } from './reducers/StatusReducer';
 
 const combinedReducer = combineReducers(StatusReducer, StateReducer, TaskReducer, AdReducer, GraphQLReducer);
 
 //console.log(combinedReducer);
+
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
 
           <Route exact
             path="/tasks">
-            <TaskDashboard />
+            <TaskDashboardStoreConsumer />
           </Route>
           <Route exact
             path="/ads">
@@ -43,7 +44,8 @@ function App() {
             <CurrencyListStoreConsumer />
           </Route>
           <Route exact path="/map">
-            {/* <SvgMapMacedonia width={1000} height={791}
+            {/* how to use with custom titles
+            <SvgMapMacedonia width={1000} height={791}
                   style={{ fill: "#7c7c7c", stroke: "#ffffff", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2" }}
                   selectedStyle={{ fill: "red" }}
                   hoverStyle={{ fill: "blue" }}

@@ -1,5 +1,5 @@
 import Task from "../db/shemas/Task";
-import mongoose from "mongoose";
+
 
 
 const TaskMutation =
@@ -13,9 +13,12 @@ const TaskMutation =
             return true;
         else return false;
     },
-    updateTask: async (_, { _id, group, isComplete }) => {
-        const upd = { group, isComplete };
+    updateTask: async (_, { _id, group, priority, isComplete }) => {
+        const upd = { group, priority, isComplete };
+
+        //remove undefined
         Object.keys(upd).forEach(key => upd[key] === undefined && delete upd[key]);
+
         const res = await Task.updateOne({ _id }, upd, {});
         return res.nModified;
     }

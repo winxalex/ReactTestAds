@@ -18,7 +18,7 @@ const Container = styled.div`
 
 let _destinationGroup = null;
 
-export default function TaskDashboard() {
+export default function TaskDashboardStoreConsumer() {
 
 
 
@@ -84,7 +84,7 @@ export default function TaskDashboard() {
             console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, _destinationGroup, task);
             group = _destinationGroup;
             _destinationGroup = null;
-            store.updateTask(task, group, group.name === "Done" ? true : false);
+            store.updateTask(task, group, evt.newIndex, group.name === "Done" ? true : false);
         }
 
         //console.log(evt, evt.oldIndex, evt.newIndex, group, _currentTask);
@@ -104,7 +104,7 @@ export default function TaskDashboard() {
 
             {
                 groups.map((group, index) =>
-                    <div key={index} style={{ minHeight: 300, backgroundColor: "gray" }}>
+                    <div key={index}>
 
                         <TaskList tasks={group.tasks} name={group.name}
                             groupIdName="my"
