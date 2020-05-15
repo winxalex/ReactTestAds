@@ -9,7 +9,7 @@ export default function Store({ reducer, children }) {
 
     const [store, state, subject] = useStore(reducer);
 
-    console.log(state);
+    //console.log(state);
 
     return (
 

@@ -17,6 +17,7 @@ const Container = styled.div`
 
 
 let _destinationGroup = null;
+let _previousTaskIdOnPosition = null;
 
 export default function TaskDashboardStoreConsumer() {
 
@@ -48,6 +49,9 @@ export default function TaskDashboardStoreConsumer() {
         // evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
 
         console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, group);
+
+        if (evt.newIndex < group.tasks.length)
+            _previousTaskIdOnPosition = group.tasks[evt.newIndex]
 
         _destinationGroup = group;
 
@@ -84,7 +88,7 @@ export default function TaskDashboardStoreConsumer() {
             console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex, _destinationGroup, task);
             group = _destinationGroup;
             _destinationGroup = null;
-            store.updateTask(task, group, evt.newIndex, group.name === "Done" ? true : false);
+            store.updateTask(task, group, _previousTaskIdOnPosition, group.name === "Done" ? true : false);
         }
 
         //console.log(evt, evt.oldIndex, evt.newIndex, group, _currentTask);

@@ -50,6 +50,22 @@ export const TaskReducer = {
 
         //console.log(userId);
 
+        const GET_TASKS = gql`
+        {
+            user(_id: "${userId}") {
+            name,
+            groups{
+                _id,
+                name,
+                tasks{
+                    _id,
+                    name
+                }
+            }
+            }
+        }
+        `
+
         return client
             // .query({
             //     query: getTasksGQL,
@@ -58,22 +74,7 @@ export const TaskReducer = {
             // })
             .query({
 
-                query: gql`
-                    {
-                        user(_id: "${userId}") {
-                        name,
-                        groups{
-                            _id,
-                            name,
-                            tasks{
-                                _id,
-                                name,
-                                priority
-                            }
-                        }
-                        }
-                    }
-            `
+                query: GET_TASKS
 
             })
             .then(({ data }) => {
@@ -103,15 +104,15 @@ export const TaskReducer = {
 
 
     },
-    updateTask(task, group, priority, isComplete) {
+    updateTask(task, group, insertAfter_id, isComplete) {
 
 
         const UPDATE_MUTATION = gql`
             mutation {
                 updateTask(
                     _id: "${task._id}",
-                    group:"${group._id}"
-                    priority:${priority}
+                    group:"${group._id}",
+                    insertAfterId:"${insertAfter_id}"   
                     isComplete: ${isComplete}
                 )
           }`

@@ -36,7 +36,48 @@ const userResolver = {
         //group comes from parent in resolver chain a.ka. from User
         tasks: async (group) => {
 
-            return await Task.find({ "owner": group.owner, "group": group._id }).sort({ "priority": 1 });
+            const tasksQueries = [];
+
+            let task = null;
+
+            //we need to find head
+            let taskQuery = await Task.findOne({ "owner": group.owner, "group": group._id, "prev": null },
+                function (err, res) {
+                    if (err) {
+                        console.error(err);
+                        return tasksQueries;
+                    } else {
+                        task = res;
+                    }
+                }
+            );
+
+
+            if (task) {
+
+                //taskTailQuery.then(a => console.log(a));
+                tasksQueries.push(taskQuery);
+
+                while (task.next) {
+
+                    taskQuery = await Task.findOne({ "_id": task.next }, function (err, res) {
+                        if (err) {
+                            console.error(err);
+                            return tasksQueries;
+                        } else {
+                            task = res;
+                        }
+                    });
+
+                    tasksQueries.push(taskQuery);
+
+                }
+
+
+            }
+
+            return tasksQueries;
+
         }
     },
 

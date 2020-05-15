@@ -9,7 +9,8 @@ const TaskShema = new Schema({
     //id: Schema.Types.ObjectId, _id is automatically created
     group: Schema.Types.ObjectId,
     owner: Schema.Types.ObjectId,
-    priority: Number,//Int32 in MongoDB
+    prev: Schema.Types.ObjectId,
+    next: Schema.Types.ObjectId,
     isComplete: Boolean
 }, { autoCreate: true });//this option will create "tasks" collection
 
