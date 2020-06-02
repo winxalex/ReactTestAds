@@ -23,8 +23,14 @@ const ReactSortableStyle = {
 }
 
 
+
+
+// const onStart = (evt) => {
+
+// }
+
 //if you group lists they need to have same value for prop "group"
-export const TaskList = ({ tasks, groupIdName, name, onSetList, onAdd, onRemove }) => (
+export const TaskList = ({ tasks, groupIdName, name, onSetList, onAdd, onRemove, onStart, onEnd }) => (
     <Container>
         <Title>{name}</Title>
         <ReactSortable
@@ -32,6 +38,8 @@ export const TaskList = ({ tasks, groupIdName, name, onSetList, onAdd, onRemove 
             onAdd={onAdd}
             onRemove={onRemove}
             setList={onSetList}
+            onEnd={onEnd}
+            onStart={onStart}
         >
             {tasks.map(item => (
                 <TaskItem key={item._id} name={item.name}></TaskItem>

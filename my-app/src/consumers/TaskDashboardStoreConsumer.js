@@ -2,6 +2,7 @@ import { StoreContext } from '../store/Store';
 import React, { useContext, useEffect } from 'react'
 import { TaskList } from '../components/task/TaskList';
 import styled from 'styled-components';
+import TaskListStoreConsumer from './TaskListStoreConsumer';
 
 const Container = styled.div`
   display: flex;
@@ -82,6 +83,8 @@ export default function TaskDashboardStoreConsumer() {
     const onRemove = (/**Event*/evt, group) => {
         // same properties as onEnd
 
+        console.log(evt, "old=", evt.oldIndex, "new=", evt.newIndex);
+
         if (_destinationGroup) {
 
             const task = group.tasks[evt.oldIndex];
@@ -98,6 +101,7 @@ export default function TaskDashboardStoreConsumer() {
 
 
 
+
     const { groups } = getState().user;
 
     return (
@@ -110,11 +114,11 @@ export default function TaskDashboardStoreConsumer() {
                 groups.map((group, index) =>
                     <div key={index}>
 
-                        <TaskList tasks={group.tasks} name={group.name}
+                        <TaskListStoreConsumer tasks={group.tasks} name={group.name}
                             groupIdName="my"
                             onRemove={(e) => onRemove(e, group)}
                             onAdd={(e) => onAdd(e, group)}
-                            onSetList={(l) => setList(l, index)} />
+                            onSetList={(l) => setList(l, index)}></TaskListStoreConsumer>
                     </div>
                 )
             }
